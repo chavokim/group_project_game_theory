@@ -57,12 +57,14 @@ export const MainTemplate = ({editing}) => {
     const [semesterCnt, setSemesterCnt] = useState(0);
     const [duration, setDuration] = useState(50);
     const { gameStore, playerStore } = useStores();
-    const {start} = gameStore;
-    const {finishSemester, finishClass} = playerStore;
 
     const {enqueueSnackbar} = useSnackbar();
 
+
     useEffect(() => {
+        const {start} = gameStore;
+        const {finishSemester, finishClass} = playerStore;
+
         if(!isStart)
             return;
         if(semesterCnt === MAX_SEMESTER){
@@ -83,7 +85,8 @@ export const MainTemplate = ({editing}) => {
         return () => {
             clearTimeout(timer)
         };
-    }, [isStart, classCnt])
+        // eslint-disable-next-line
+    }, [isStart, classCnt, semesterCnt, duration])
 
     const handleStart = () => {
         setIsStart(true);

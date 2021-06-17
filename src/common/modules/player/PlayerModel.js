@@ -141,6 +141,10 @@ export class PlayerModel {
         this.GPA += n;
     }
 
+    setPoint(n) {
+        this.point = n;
+    }
+
     finishSemester() {
         if(this.stamina < 0)
             this.stamina = 0;

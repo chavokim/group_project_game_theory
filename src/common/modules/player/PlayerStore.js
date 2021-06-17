@@ -1,6 +1,15 @@
 import {makeAutoObservable} from "mobx";
 import {PlayerModel, SelectType, StrategyType} from "./PlayerModel";
 import {getProjectScore} from "../../utils/getProjectScore";
+import {getPoints} from "../../utils/getPoint";
+
+const compare = (a, b) => {
+    if(a.point > b.point)
+        return -1;
+    if(b.point > a.point)
+        return 1;
+    return 0;
+}
 
 export default class PlayerStore {
     players = [];
@@ -12,6 +21,7 @@ export default class PlayerStore {
     }
 
     init() {
+        this.players = [];
         this.addPlayer({nickname: '장수민', i:5, f:3, s:2, strategyType: StrategyType.t4t, t4tCount: 1});
         this.addPlayer({nickname: 'ABCD', i:4, f:3, s:3, strategyType: StrategyType.t4t, t4tCount: 1});
         this.addPlayer({nickname: '황혜주', i:3, f:2, s:5, strategyType: StrategyType.stamina, staminaLimit: 10});
@@ -83,6 +93,15 @@ export default class PlayerStore {
         const rStu = this.players[r];
         lStu.addGPA(gpa);
         rStu.addGPA(gpa);
+    }
+
+    finishClass(){
+        const Reputations = this.players.reduce((acc, curr) => [...acc, curr.Reputation], []);
+        const SavedStaminas = this.players.reduce((acc, curr) => [...acc, curr.SavedStamina], []);
+        const GPAs = this.players.reduce((acc, curr) => [...acc, curr.GPA], []);
+        this.players.forEach((item)=>item.setPoint(getPoints({...item, Reputations, SavedStaminas, GPAs})));
+        this.players.replace(this.players.sort(compare));
+        console.log(this.players);
     }
 
     finishSemester(){

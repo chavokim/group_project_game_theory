@@ -73,7 +73,6 @@ export default class GameStore {
             const percent = ((scoreCnt + 1) / scoresLength) * 100;
             const gpa = getProjectGPA(percent, scores[scoreCnt].score);
             this.rootStore.playerStore.giveGPA(gpa, pairs[scores[scoreCnt].id], pairs[scores[scoreCnt].id + 1]);
-            this.printLog(`gpa: ${gpa}\n`);
         }
     }
 }

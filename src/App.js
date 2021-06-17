@@ -103,7 +103,6 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
         <SnackbarProvider maxSnack={3}>
             {/*<CountdownHeader />*/}
-            <Box height={64} />
             <Router />
         </SnackbarProvider>
     </ThemeProvider>

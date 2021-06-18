@@ -62,8 +62,8 @@ export default class PlayerStore {
         const lStu = this.players[l];
         const rStu = this.players[r];
 
-        const lSel = this.players[l].playWith(load, r);
-        const rSel = rStu.playWith(load, l);
+        const lSel = this.players[l].playWith(load, this.players[r]);
+        const rSel = rStu.playWith(load, this.players[l]);
 
         this.rootStore.gameStore.printLog(`${lStu.nickname}: ${lSel}, ${rStu.nickname}: ${rSel}\n`);
 
@@ -105,7 +105,6 @@ export default class PlayerStore {
             item.setPoint(Math.round(((points.RepPoint + points.StamPoint + points.GPAPoint) / 3) * 100) / 100);
         });
         this.players.replace(this.players.sort(compare));
-        console.log(this.players);
     }
 
     finishSemester(totalNumber){

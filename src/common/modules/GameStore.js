@@ -72,7 +72,8 @@ export default class GameStore {
         for(let scoreCnt = 0; scoreCnt !== scoresLength; scoreCnt++) {
             const percent = ((scoreCnt + 1) / scoresLength) * 100;
             const gpa = getProjectGPA(percent, scores[scoreCnt].score);
-            this.rootStore.playerStore.giveGPA(gpa, pairs[scores[scoreCnt].id], pairs[scores[scoreCnt].id + 1]);
+            const totalNumber = (classCnt + 1) + (6 * semesterCnt);
+            this.rootStore.playerStore.giveGPA(totalNumber, gpa, pairs[scores[scoreCnt].id], pairs[scores[scoreCnt].id + 1]);
         }
     }
 }

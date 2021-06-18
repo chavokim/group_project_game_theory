@@ -15,6 +15,7 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,13 +37,26 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const StudentIndicator = (props) => {
+const Logs = (props) => {
     const classes = useStyles();
+
+    const [input, setInput] = useState("");
+
+    const handleChange = e => {
+        setInput(e.target.value);
+    }
+
+    const filteredLine = input ? props.log.split('\n').filter(
+        item => item.includes('---') || item.includes(input)
+    ).reduce((acc, curr) => acc + curr + '\n', "") : props.log;
 
     return (
         <Box>
+            <form className={classes.root} noValidate autoComplete="off">
+                <TextField id="standard-basic" label="닉네임" value={input} onChange={handleChange} />
+            </form>
             <Typography className={classes.log}>
-                {props.log}
+                {filteredLine}
             </Typography>
         </Box>
     )
@@ -74,7 +88,7 @@ export const MainTemplate = ({editing}) => {
         if(classCnt === MAX_CLASS){
             setClassCnt(0);
             setSemesterCnt(semesterCnt + 1);
-            finishSemester();
+            finishSemester(semesterCnt + 1);
         }
         const timer = setTimeout(() => {
             start(semesterCnt, classCnt);
@@ -145,7 +159,7 @@ export const MainTemplate = ({editing}) => {
                         limit: 10,
                     }}
                 />
-                <StudentIndicator log={debugLog} />
+                <Logs log={debugLog} />
             </Box>
         )
     })

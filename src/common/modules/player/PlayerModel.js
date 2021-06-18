@@ -29,6 +29,8 @@ export class PlayerModel {
     t4tCount = 0;
     Reputation = 50;
     GPA = 0;
+    totalGPA = 0;
+    totalStamina = 0;
     SavedStamina = 0;
     point = 0;
 
@@ -137,18 +139,20 @@ export class PlayerModel {
         this.rejectedCount = 0;
     }
 
-    addGPA(n) {
-        this.GPA += n;
+    addGPA(totalNumber, n) {
+        this.totalGPA += n;
+        this.GPA = Math.round((this.totalGPA / totalNumber) * 100) / 100;
     }
 
     setPoint(n) {
         this.point = n;
     }
 
-    finishSemester() {
+    finishSemester(totalNumber) {
         if(this.stamina < 0)
             this.stamina = 0;
-        this.SavedStamina += Math.floor((this.stamina / this.initStamina) * 100);
+        this.totalStamina += Math.round((this.stamina / this.initStamina) * 10000) / 100;
+        this.SavedStamina = Math.round((this.totalStamina / totalNumber) * 100) / 100;
         this.stamina = this.initStamina;
     }
 }

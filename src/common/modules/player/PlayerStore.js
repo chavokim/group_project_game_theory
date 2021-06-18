@@ -88,24 +88,28 @@ export default class PlayerStore {
         return 0;
     }
 
-    giveGPA(gpa, l, r) {
+    giveGPA(totalNumber, gpa, l, r) {
         const lStu = this.players[l];
         const rStu = this.players[r];
-        lStu.addGPA(gpa);
-        rStu.addGPA(gpa);
+        lStu.addGPA(totalNumber, gpa);
+        rStu.addGPA(totalNumber, gpa);
     }
 
     finishClass(){
         const Reputations = this.players.reduce((acc, curr) => [...acc, curr.Reputation], []);
         const SavedStaminas = this.players.reduce((acc, curr) => [...acc, curr.SavedStamina], []);
         const GPAs = this.players.reduce((acc, curr) => [...acc, curr.GPA], []);
-        this.players.forEach((item)=>item.setPoint(getPoints({...item, Reputations, SavedStaminas, GPAs})));
+        this.players.forEach((item) => {
+            const points = getPoints({...item, Reputations, SavedStaminas, GPAs});
+            this.rootStore.gameStore.printLog(`${item.nickname}: ${item.totalGPA}(총 학점) + ${item.totalStamina}(총 아낀 체력) + ${item.Reputation}(현재까지 평판)\n`);
+            item.setPoint(Math.round(((points.RepPoint + points.StamPoint + points.GPAPoint) / 3) * 100) / 100);
+        });
         this.players.replace(this.players.sort(compare));
         console.log(this.players);
     }
 
-    finishSemester(){
-        this.players.forEach((item)=>item.finishSemester());
+    finishSemester(totalNumber){
+        this.players.forEach((item)=>item.finishSemester(totalNumber));
     }
 
     get playerGrid() {

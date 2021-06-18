@@ -1,10 +1,14 @@
 export const getPoints = ({Reputation, SavedStamina, GPA, Reputations, SavedStaminas, GPAs}) => {
-    return Math.round(getPoint(Reputation, Reputations) + getPoint(SavedStamina, SavedStaminas) + getPoint(GPA, GPAs) * 100) / 100;
+    return {
+        RepPoint: getPoint(Reputation, Reputations),
+        StamPoint: getPoint(SavedStamina, SavedStaminas),
+        GPAPoint: getPoint(GPA, GPAs)
+    }
 }
 
 const getPoint = (value, values) => {
     const z = (value - average(values)) / standardDeviation(values);
-    return (z * 10 + 50);
+    return (z * 20 + 100);
 }
 
 const standardDeviation = (values) => {

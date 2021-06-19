@@ -17,7 +17,7 @@ export class PlayerModel {
     stamina = 50;
     strategyType = StrategyType.same;
     selectType = SelectType.cooperation;
-    projectLoad = 0;
+    projectLoad = 100;
     staminaLimit = 0;
     rejectedCount = 0;
     count = 0;
@@ -33,6 +33,7 @@ export class PlayerModel {
     totalStamina = 0;
     SavedStamina = 0;
     point = 0;
+    totalRejected = 0;
 
     constructor(data) {
         makeAutoObservable(this, {}, {autoBind: true});
@@ -57,7 +58,8 @@ export class PlayerModel {
             this.initFriendship.toString(),
             this.initStamina.toString(),
             this.strategyType,
-            this.makeStrategyStr
+            this.makeStrategyStr,
+            this.totalRejected
         ])
     }
 
@@ -72,7 +74,7 @@ export class PlayerModel {
             return `내 체력이 ${this.staminaLimit} 이상이고, 과제 로드가 ${this.projectLoad} 이하일 때 협동`;
         }
         if(this.strategyType === StrategyType.t4t) {
-            return `프리라이딩 ${this.t4tCount}번까지 당할 때까지 협동하고, 그 이후는 프리라이딩.`;
+            return `프리라이딩 ${this.t4tCount}번 당할 때까지 협동하고, 그 이후는 프리라이딩.`;
         }
 
         return "오류! : 올바르지 않은 입력 양식입니다!";
@@ -132,6 +134,7 @@ export class PlayerModel {
         this.stamina -= load;
         this.addReputation(10);
         this.rejectedCount++;
+        this.totalRejected++;
     }
 
     reject() {

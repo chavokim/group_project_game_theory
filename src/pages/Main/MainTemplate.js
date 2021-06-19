@@ -16,6 +16,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import {CSVDownload, CSVLink} from "react-csv";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,8 +28,9 @@ const useStyles = makeStyles(theme => ({
     buttonBox: {
         display: 'flex',
         flexDirection: 'row',
-        width: 250,
-        justifyContent: 'space-between'
+        width: 350,
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
     },
     header: {
         display: 'flex',
@@ -118,6 +120,8 @@ export const MainTemplate = ({editing}) => {
         setDuration(event.target.value);
     };
 
+    const columns = ['별명', '점수', '학점', '평판', '아낀 체력', '지능', '친화력', '체력', '전략타입', '전략상세', '총 배신당한 횟수'];
+
     return useObserver(() => {
         const { playerGrid } = playerStore;
         const { debugLog } = gameStore;
@@ -148,11 +152,12 @@ export const MainTemplate = ({editing}) => {
                         <Button variant='contained' onClick={handleClear}>
                             Clear
                         </Button>
+                        <CSVLink data={playerGrid}>Download CSV</CSVLink>
                     </Box>
                 </Box>
                 <Grid
                     data={playerGrid}
-                    columns={['별명', '점수', '학점', '평판', '아낀 체력', '지능', '친화력', '체력', '전략타입', '전략상세']}
+                    columns={columns}
                     search
                     pagination={{
                         enabled: true,
